@@ -11,7 +11,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect
-import plotly.graph_objs as go
+# import plotly.graph_objs as go
 
 # Create your views here.
 
