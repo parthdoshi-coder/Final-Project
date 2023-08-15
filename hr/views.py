@@ -117,7 +117,8 @@ def add_employee(request):
                     'error_msg': str(e), 
                     'status_code': 400
                 })
-
+    user = User.objects.filter(username=request.session.get('username'))
+    emp_id = Employee.objects.filter(user=user.first()).first()
     cities =  City.objects.all()
     states = State.objects.all()
     deps = Department.objects.all()
@@ -127,7 +128,8 @@ def add_employee(request):
         'cities': cities,
         'states': states,
         'deps': deps,
-        'designation': designation 
+        'designation': designation,
+        'is_hr': emp_id.is_hr
     }
 
     return render(request,'add_employee.html', context)
@@ -136,10 +138,11 @@ def my_profile(request):
     if request.session.get('username'):
         user = User.objects.filter(username=request.session.get('username'))
         emp_id = Employee.objects.filter(user=user[0])
-        print(emp_id[0].profile)
+        print(emp_id[0].is_hr)
         context = {
             'username': request.session.get('username'),
-            'emp': emp_id[0] 
+            'emp': emp_id[0],
+            'is_hr': emp_id[0].is_hr 
         }
     else:
         context = {}
@@ -160,14 +163,17 @@ def view_all_employee(request):
             'departments' : Department.objects.all()
         }
         return render(request,'view_all_employee.html', context)
-     
+    
+    user = User.objects.filter(username=request.session.get('username'))
+    emp_id = Employee.objects.filter(user=user[0]).first()
+
     all_deps = Department.objects.all()
     context = {
         'departments': all_deps,
-        'employees': Employee.objects.all()
+        'employees': Employee.objects.all(),
+        'is_hr': emp_id.is_hr
      }
     return render(request,'view_all_employee.html',context)
-
 
 def index(request):
     if request.session.get('username'):
@@ -191,8 +197,9 @@ def index(request):
     
     return redirect('login')
 
-
 def add_department(request):
+    user = User.objects.filter(username=request.session.get('username'))
+    emp_id = Employee.objects.filter(user=user[0]).first()
     if request.method == 'POST':
         dep_name = request.POST.get('dep_name')
         dep = Department.objects.filter(department_name=dep_name)
@@ -201,16 +208,16 @@ def add_department(request):
         else:
             Department.objects.create(department_name=dep_name)
             messages.success(request, 'Department added successfully!')
-    return render(request, 'add_department.html')
+    return render(request, 'add_department.html', {'is_hr': emp_id.is_hr})
 
 def view_department(request):
+    user = User.objects.filter(username=request.session.get('username'))
+    emp_id = Employee.objects.filter(user=user[0]).first()
     context = {
-        'deps': Department.objects.all()
+        'deps': Department.objects.all(),
+        'is_hr': emp_id.is_hr
     }
     return render(request, 'view_department.html', context)
-
-
-
 
 @login_required
 @csrf_protect
@@ -223,6 +230,7 @@ def fill_attendance(request):
 
     # Get the employee object
     emp = Employee.objects.filter(user=user).first()
+    context['is_hr'] = emp.is_hr
 
     if emp:
         # Check if attendance exists for today
@@ -265,25 +273,30 @@ def fill_attendance(request):
 @login_required
 @csrf_protect
 def attendence_request(request):
+    user = request.user
+    emp = Employee.objects.filter(user=user).first()
     if request.method == 'POST':
-        user = request.user
-        emp = Employee.objects.filter(user=user).first()
-        
+            
         RequestedAttendance.objects.create(
             emp_id=emp, att_date=request.POST.get('att_date'), in_time=request.POST.get('intime'),
             out_time=request.POST.get('outtime'), request_type=request.POST.get('request_type'),
             status='pending', note=request.POST.get('note')             
         )
-        return render(request, 'attendence_request.html')
-    return render(request, 'attendence_request.html')
+        return render(request, 'attendence_request.html', {'is_hr': emp.is_hr})
+    return render(request, 'attendence_request.html', {'is_hr': emp.is_hr})
 
 @login_required
 def view_attendence_requests(request):
+    user = request.user
+    emp = Employee.objects.filter(user=user).first()
+
     all_requests = RequestedAttendance.objects.filter(status='pending')
-    return render(request, 'view_attendence_request.html', context={'attendance_records': all_requests})
+    return render(request, 'view_attendence_request.html', context={'attendance_records': all_requests, 'is_hr':emp.is_hr})
 
 @login_required
 def accept_reject_attendance(request, attendance_id, action):
+    user = request.user
+    emp = Employee.objects.filter(user=user).first()
     attendence = get_object_or_404(RequestedAttendance, id=attendance_id)
     if attendence:
         if action=='approve' and attendence.request_type == 'new':
@@ -310,7 +323,7 @@ def accept_reject_attendance(request, attendance_id, action):
     
     attendence.save()
     all_requests = RequestedAttendance.objects.filter(status='pending')
-    return render(request, 'view_attendence_request.html', context={'attendance_records': all_requests})
+    return render(request, 'view_attendence_request.html', context={'attendance_records': all_requests, 'is_hr': emp.is_hr})
             
 @login_required
 def view_attendences(request):
@@ -376,7 +389,9 @@ def download_attendance_csv(request, start_date, end_date):
 @login_required
 def leave_application(request):
     leavetype = Leavetype.objects.all()
-
+    user = User.objects.filter(username=request.session.get('username')).first()
+    emp_id = Employee.objects.filter(user=user).first()
+    
     if request.method == "POST":
         fro = request.POST.get('start_date') 
         to = request.POST.get('end_date')
@@ -386,9 +401,6 @@ def leave_application(request):
         # Convert the date strings to datetime objects
         fro_date = datetime.datetime.strptime(fro, '%Y-%m-%d')
         to_date = datetime.datetime.strptime(to, '%Y-%m-%d')
-        
-        user = User.objects.filter(username=request.session.get('username')).first()
-        emp_id = Employee.objects.filter(user=user).first()
         
         # Check if there's an overlapping leave for the same user and date range
         overlapping_leave = Leaves.objects.filter(emp_id=emp_id, fro__lte=to_date, to__gte=fro_date, status__in=['pending', 'approved']).first()
@@ -411,10 +423,11 @@ def leave_application(request):
             else:
                 messages.error(request, "Leave type is required.")
         
-        return render(request, 'leave_application.html', {'leavetype': leavetype})
+        return render(request, 'leave_application.html', {'leavetype': leavetype, 'is_hr': emp_id.is_hr})
     
     context = {
-        'leavetype': leavetype 
+        'leavetype': leavetype ,
+        'is_hr': emp_id.is_hr
     }
 
     return render(request, 'leave_application.html', context)
@@ -436,20 +449,26 @@ def view_all_leaves(request):
     elif status:
         leave_records = leave_records.filter(status=status)
 
+    user = User.objects.filter(username=request.session.get('username')).first()
+    emp = Employee.objects.filter(user=user).first()
     context = {
         'leave_records': leave_records,
-        'all_emp': Employee.objects.all()
+        'all_emp': Employee.objects.all(),
+        'is_hr': emp.is_hr
     }
 
     return render(request, 'view_all_leaves.html', context)
 
 def approve_leave(request, id, action):
-
+    user = User.objects.filter(username=request.session.get('username')).first()
+    emp_id = Employee.objects.filter(user=user).first()
+    
     leave_records = Leaves.objects.select_related('leavetype_id', 'emp_id').all()
 
     context = {
         'leave_records': leave_records,
-        'all_emp': Employee.objects.all()
+        'all_emp': Employee.objects.all(),
+        'is_hr': emp_id.is_hr
     }
     leave = Leaves.objects.get(id=id)
     
@@ -470,7 +489,8 @@ def track_leave(request):
 
     context = {
         'leave_records': leave_records,
-        'all_emp': Employee.objects.all()
+        'all_emp': Employee.objects.all(),
+        'is_hr': emp_id.is_hr
     }
     return render(request,'track_leave.html',context)
 
@@ -481,7 +501,8 @@ def cancel_leave(request, id):
     leave_records = Leaves.objects.filter(emp_id=emp_id, status='cancel')
     
     context = {
-        'leave_records': leave_records
+        'leave_records': leave_records,
+        'is_hr': emp_id.is_hr
     }
     
     if leave.status == 'pending':
@@ -495,21 +516,26 @@ def cancel_leave(request, id):
     
     return render(request, 'track_leave.html', context)
 
-
 def deactivate_employee(request, id):
     employee = get_object_or_404(Employee, id=id)
+    
+    user = User.objects.filter(username=request.session.get('username')).first()
+    emp_id = Employee.objects.filter(user=user).first()
     
     if request.method == 'POST':
         employee.delete()
         return redirect('view_all_employee')  # Redirect to the employee list page
     
     context = {
-        'employee': employee
+        'employee': employee,
+        'is_hr': emp_id.is_hr
     }
     return render(request, 'deactivate_employee.html', context)
 
 def update_employee(request,id):
-    print(request.POST)
+    user = User.objects.filter(username=request.session.get('username')).first()
+    emp_id = Employee.objects.filter(user=user).first()
+    
     employee = Employee.objects.get(id = id)
     #  context = {'Employee' : queryset}
     if request.method == 'POST':
@@ -559,13 +585,13 @@ def update_employee(request,id):
             'cities': cities,
             'states': states,
             'deps': deps,
-            'designation': designation 
+            'designation': designation ,
+            'is_hr': emp_id.is_hr
         }
 
       
         return render(request,'update_employee.html', context)
-    
-    
+       
 def change_password(request):
     if not request.user.is_authenticated:
         return redirect('login')
@@ -620,7 +646,8 @@ def show_attendence_graph(request):
         graph_html = go.Figure(data=graph_data, layout=graph_layout).to_html(full_html=False)
 
         context = {
-            'graph': graph_html
+            'graph': graph_html,
+            'is_hr': emp_id.is_hr
         }
 
         return render(request, 'show_attendence_graph.html', context)

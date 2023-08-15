@@ -12,6 +12,12 @@
 /* Aside Tag start */
 .side-bar {
   background-color: rgb(64, 60, 60);
+  height: 100vh; /* Make the sidebar full height */
+  overflow-y: auto; /* Add scroll if content overflows */
+  
+  left: 0;
+  top: 0;
+  
 }
 .ul-main {
   list-style: none;
