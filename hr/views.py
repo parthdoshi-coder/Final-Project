@@ -592,24 +592,26 @@ def update_employee(request,id):
       
         return render(request,'update_employee.html', context)
        
+@login_required
 def change_password(request):
-    if not request.user.is_authenticated:
-        return redirect('login')
-    error = ""
-    user = request.user
-    if request.method == "POST":      
-        c = request.POST['currentpassword']  
-        n = request.POST['newpassword']    
-        try:
-            if user.check_password(c):
-                user.set_password(n)                
-                user.save()
-                error = "no"
-            else:
-                error = "not"
-        except:
-            error = "yes"         
-        return render(request,'change_password.html',locals())
+    if request.method == 'POST':
+        current_password = request.POST.get('currentpassword')
+        new_password = request.POST.get('newpassword')
+        confirm_password = request.POST.get('confirmpassword')
+        
+        # Implement your password change logic here
+        user = request.user
+        if user.check_password(current_password) and new_password == confirm_password:
+            user.set_password(new_password)
+            user.save()
+            error = 'no'
+            return render(request, 'change_password.html', {'error': 'no'})
+
+        else:
+            return render(request, 'change_password.html', {'error': 'not'})
+
+    return render(request, 'change_password.html', {'error': None})
+
 
 def show_attendence_graph(request):
     
