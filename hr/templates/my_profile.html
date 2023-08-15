@@ -49,6 +49,7 @@
 
     .container-item {
         display: flex;
+        flex-direction: column;
         align-items: center;
     }
 </style>
@@ -60,10 +61,10 @@
                 class="round-image" />
         </div>
     </button>
-    <div class="container-item">
-        <div class="text mt-3">
-            <span class="fs-4">{{ emp.user.first_name|add:" " }}{{ emp.user.last_name }}</span>
-            <a href="{% url 'update_employee' emp.id %}" class="btn btn-secondary m-2"> Edit profile</a>
+    <div class="container-item mt-0">
+        <div class="text">
+            <span class="fs-4 d-block text-center">{{ emp.user.first_name|add:" " }}{{ emp.user.last_name }}</span>
+            <a href="{% url 'update_employee' emp.id %}" class="btn btn-secondary d-block text-center"> Edit profile</a>
         </div>
 
         <div class="text mt-3">
