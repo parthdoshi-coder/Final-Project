@@ -1,0 +1,25 @@
+{% extends 'index.html' %}
+
+{% block mycontent %}
+<div class="container mt-5">
+  <h1>Show Your Attendence for the Selected Dates</h1>
+<form method="get" action="{% url 'show_attendence_graph' %}" class="row g-3 align-items-center">
+  <div class="col-auto">
+    <label for="start_date">From Date:</label>
+</div>
+<div class="col-auto">
+    <input type="date" id="start_date" name="start_date" class="form-control" value="{{ start_date }}" required>
+</div>
+<div class="col-auto">
+    <label for="end_date">To Date:</label>
+</div>
+<div class="col-auto">
+    <input type="date" id="end_date" name="end_date" class="form-control" value="{{ end_date }}" required>
+</div>
+<div class="col-auto">
+  <button type="submit" class="btn btn-primary">Apply Filter</button>
+</div>
+</form>
+  <div style="width: 80%; margin: 0 auto; width: 1000px; height: 1000px;">{{ graph|safe }}</div>
+</div>
+{% endblock %}

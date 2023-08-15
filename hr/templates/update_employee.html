@@ -1,0 +1,84 @@
+{% extends "index.html" %}
+
+{% block mycontent %}
+
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card">
+        <div class="card-header">
+          <h1 class="card-title">Update Employee</h1>
+        </div>
+        <div class="card-body">
+          <form class="custom-form" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="mb-3">
+              <label for="user" class="form-label">Employee Id</label>
+              <input type="text" class="form-control" id="user" name="user" required value="{{ employee.user }}" readonly="true"/>
+            </div>
+            <div class="mb-3">
+              <label for="Department" class="form-label">Department</label>
+              <select class="form-select" id="Department" name="Department" readonly="true" required>
+                <option value="{{employee.dep_id.department_name}}">{{ employee.dep_id.department_name }}</option>
+              </select>
+            </div>
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label for="fname" class="form-label">First Name</label>
+                <input type="text" class="form-control" id="fname" name="first_name" pattern="[A-Za-z]+" required / value="{{ employee.user.first_name }}">
+              </div>
+              <div class="col-md-6 mb-3">
+                <label for="lname" class="form-label">Last Name</label>
+                <input type="text" class="form-control" id="lname" name="last_name" pattern="[A-Za-z]+" required / value="{{ employee.user.last_name }}"> 
+              </div>
+            </div>
+            <div class="mb-3">
+              <label for="mobile_number" class="form-label">Mobile Number</label>
+              <input type="text" class="form-control" id="mobile_number" name="mobile_number" pattern="[0-9]+" required /  value="{{ employee.mobile_number }}">
+            </div>
+            <label for="email">Email</label>
+            <input type="email" class="form-control" id="email" name="email" required /  value="{{ employee.email }}" >
+
+
+            <label for="employee_address" class="form-label">Address</label>
+            <textarea class="form-control" id="employee_address" name="employee_address" rows="4" required>{{employee.employee_address}}</textarea>
+
+            <label for="state" class="form-label mb-2">State</label>
+            <select class="form-select" id="state" name="state" required>
+            <option value="{{employee.state_id.name}}">{{employee.state_id.name}}</option>
+              {% for x in states %}
+              <option value="{{ x }}">{{ x }}</option>
+              {% endfor %}
+            </select>
+
+            <label for="city" class="form-label mb-2">City</label>
+            <select class="form-select" id="city" name="city" required>
+                <option value="{{employee.city_id.name}}">{{employee.city_id.name}}</option>
+                {% for x in cities %}
+              <option value="{{ x }}">{{ x }}</option>
+              {% endfor %}
+            </select>
+
+        
+            <label for="designation" class="form-label mb-2">Designation</label>
+            <select class="form-select" id="designation" name="designation" required>
+            <option value="{{employee.designation_id.name}}">{{employee.designation_id.name}}</option>    
+            {% for x in designation %}
+            <option value="{{ x }}">{{ x }}</option>
+            {% endfor %}
+            </select>
+
+            <label for="profile">Profile</label>
+            <input type="file" class="form-control" id="profile" name="profile" accept="images/*">
+
+            <div class="d-grid gap-2">
+              <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

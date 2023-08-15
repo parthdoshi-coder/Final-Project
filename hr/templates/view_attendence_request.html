@@ -1,0 +1,48 @@
+{% extends 'index.html' %}
+
+{% block mycontent %}
+  <div class="container mt-5">
+    <h1>Attendance Records</h1>
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>Employee</th>
+          <th>Date</th>
+          <th>In Time</th>
+          <th>Out Time</th>
+          <th>Request Type</th>
+          <th>Status</th>
+          <th>Note</th>
+          <th>Approve/Reject</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% if attendance_records %}
+            {% for attendance in attendance_records %}
+                <tr>
+                    <td>{{ attendance.emp_id }}</td>
+                    <td>{{ attendance.att_date }}</td>
+                    <td>{{ attendance.in_time }}</td>
+                    <td>{{ attendance.out_time }}</td>
+                    <td>{{ attendance.get_request_type_display }}</td>
+                    <td>{{ attendance.get_status_display }}</td>
+                    <td>{{ attendance.note }}</td>
+                    <td>
+                        <a href="{% url 'accept_reject_attendance' attendance.id 'approve' %}">
+                            <button type="button" class="btn btn-success">Accept</button>
+                        </a>
+                        <a href="{% url 'accept_reject_attendance' attendance.id 'reject' %}">
+                            <button type="button" class="btn btn-danger">Reject</button>
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+        {% else %}
+            <tr>
+                <td colspan="8" style="text-align: center;">No Records Found</td>
+            </tr>
+        {% endif %}
+    </tbody>
+    </table>
+  </div>
+{% endblock %}

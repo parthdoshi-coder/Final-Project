@@ -1,0 +1,113 @@
+{% extends "index.html" %}
+{% load static %}
+{% block mycontent %}
+<style>
+    /* Apply circular mask to the image container */
+    .round-image-container {
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    overflow: hidden;
+    border-radius: 50%; /* Create the circular shape */
+}
+
+    /* Style for the image */
+    .round-image {
+    width: 50%; /* Ensure the image fills the circular container */
+    height: 50%;
+    border-radius: 50%; /* Keep the image itself circular within the container */
+}
+
+    
+    table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    th, td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: center;
+    }
+
+    th {
+        background-color: #f2f2f2;
+    }
+
+    tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+
+    .btn-action {
+        display: inline-block;
+        margin: 2px;
+    }
+
+</style>
+
+ <div class="container mt-2">
+    <h1>All Employees</h1>
+    <form method="post" id="add-dep-form" action="{% url 'view_all_employee' %}" class="row g-3 align-items-center">
+       
+        <div class="col-auto">
+             {% comment %} <form id="add-dep-form" method="post" class="row g-3 align-items-center">   {% endcomment %}
+             {% csrf_token %}
+            <label for="dep_filter">Select Department :</label>
+        </div>
+        <div class="col-auto">
+            <select id="dep_filter" name="dep_filter" class="form-select">
+                <option value="">All Departments</option>
+                {% for x in departments %}
+                <option value="{{ x }}">{{ x }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col-auto">
+            <button type="submit" class="btn btn-primary">Apply Filter</button>
+        </div>
+        <div class="col-auto">
+            <button class="btn btn-primary">
+                <a style="text-decoration: none; color: white;" href="{% if start_date and end_date %}{% url 'download_attendance_csv' start_date=start_date end_date=end_date %}{% endif %}">All Employees</a>
+            </button>
+        </form>
+        </div>              
+    <br/>
+    <div class="container">
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Sr. No.</th>
+                <th scope="col">Employee Code</th>
+                <th scope="col">Profile</th>
+                <th scope="col">Name</th>
+                <th scope="col">Email</th>
+                <th scope="col">Contact No</th>
+                <th scope="col">Update Details</th>
+                <th scope="col">Delete Details</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for emp in employees%}
+            <tr>
+                <th scope="row">{{ forloop.counter }}</th>
+                <td>{{emp.emp_code}}</td>
+                <div class="round-image-container">
+                <td><img src="/media/{{ emp.profile }}" style="height : 100px" "width : 60px" class="round-image"></td>
+                </div>
+                <td>{{emp.user.first_name|add:" "|add:emp.user.last_name }}</td>
+                <td>{{emp.email}}</td>
+                <td>{{emp.mobile_number}}</td> 
+                <td>
+                <a href="{% url 'update_employee' emp.id %}" class="btn btn-success m-2"> Update</a>
+                </td>
+                <td>
+                <a href="{% url 'deactivate_employee' emp.id %}" class="btn btn-danger m-2"> Delete</a>
+                </td>   
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>  
+</div>
+
+{% endblock %}

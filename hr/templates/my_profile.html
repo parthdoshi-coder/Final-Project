@@ -1,0 +1,89 @@
+{% extends "index.html" %} {% load static %} {% block mycontent %}
+<style>
+    /* Adjust the profile image container size */
+    .round-image-container {
+        display: block;
+        margin: 0px auto;
+        width: 150px;
+        height: 150px;
+        overflow: hidden;
+        border-radius: 50%;
+        margin-bottom: 15px;
+    }
+
+    .round-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 50%;
+    }
+
+    .btn1 {
+        height: 40px;
+        width: 150px;
+        border: none;
+        background-color: #000;
+        color: #fff;
+        font-size: 15px;
+        cursor: pointer;
+    }
+
+    .text {
+        font-size: 16px;
+        color: #545454;
+        margin-top: 15px;
+    }
+
+    .text span {
+        display: block;
+        margin-bottom: 5px;
+    }
+
+    .px-2.rounded.mt-4.date {
+        background-color: #f1f1f1;
+        padding: 10px;
+        border-radius: 8px;
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    .container-item {
+        display: flex;
+        align-items: center;
+    }
+</style>
+
+<div class="container my-4">
+    <button class="btn btn-secondary">
+        <div class="round-image-container">
+            <img src="{% if emp.profile %}{{ emp.profile.url }}{% else %}{% static 'images/emp.profile' %}{% endif %}"
+                class="round-image" />
+        </div>
+    </button>
+    <div class="container-item">
+        <div class="text mt-3">
+            <span class="fs-4">{{ emp.user.first_name|add:" " }}{{ emp.user.last_name }}</span>
+            <a href="{% url 'update_employee' emp.id %}" class="btn btn-secondary m-2"> Edit profile</a>
+        </div>
+
+        <div class="text mt-3">
+            <span>Employee code: {{ emp.emp_code }}</span>
+            <span>Employee Name: {{emp.user.first_name|add:" "|add:emp.user.last_name
+                }}</span>
+            <span>Mobile No: {{emp.mobile_number}}</span>
+            <span>Address: {{ emp.employee_address }}</span>
+            <span>Date of Birth: {{ emp.date_of_birth }}</span>
+            <span>city: {{emp.city_id}}</span>
+            <span>state: {{ emp.state_id }}</span>
+            <span>Aadhar_number: {{ emp.aadhar_number }}</span>
+            <span>pan_number: {{ emp.pan_number }}</span>
+            <span>Department: {{ emp.dep_id }}</span>
+            <span>Designation: {{ emp.designation_id }}</span>
+        </div>
+    </div>
+    <div class="px-2 rounded mt-4 date">
+        <span class="join">Joined {{emp.date_of_joining}}</span>
+    </div>
+</div>
+
+{% endblock %}

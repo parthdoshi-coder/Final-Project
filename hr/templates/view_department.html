@@ -1,0 +1,80 @@
+{% extends "index.html" %}
+
+{% block mycontent %}
+
+<div class="container mt-4">
+    <h2 class="text-center">All Departments</h2>
+    <br><br>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>sr. No</th>
+                <th>Department Name</th>
+            </tr>
+        </thead>
+        <tbody>
+                {% for dep in deps%}
+                <tr>
+                  <th scope="row">{{ forloop.counter }}</th>
+                  <td>{{dep.department_name}}</td>
+                {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}
+
+{% comment %} {% extends "index.html" %}
+
+{% block mycontent %} {% endcomment %}
+
+
+{% comment %} 
+<div class="mx-auto col-10 col-md-8 col-lg-6">
+    <div class="col">
+        <form id="add-dep-form" method="post" class="form-inline">
+          {% csrf_token %}
+            <div class="form-group mr-3">
+                <label for="dep_filter" class="mr-2"><b>Department wise Employees</b></label>
+                <select id="dep_filter" name="dep_filter" class="form-control">
+                    <option value="all">All Departments</option>
+                    {% for x in departments %}
+                    <option value="{{x}}">{{ x }}</option>
+                    {% endfor %}
+                    <!-- Add more options based on your department types -->
+                </select>
+            </div>
+
+            <div id="submit-button">
+                <input type="submit" value="Submit" name="submit" class="btn btn-primary btn-lg">
+            </div>
+        </form>
+    </div>
+</div>
+<div class="mt-4"> {% endcomment %}
+    {% comment %} <h2 class="text-center">Employees</h2>
+    
+    <table class="table" >
+        <thead>
+          <tr>
+            <th scope="col">Sr. No.</th>
+            <th scope="col">Department Name</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for dep in deps%}
+          <tr>
+            <th scope="row">{{ forloop.counter }}</th>
+            <td>{{dep.department_name}}</td>
+          {% endfor %}
+        </tbody>
+      </table>
+      
+</div>
+
+{% endblock %} {% endcomment %}
+
+
+
+
+

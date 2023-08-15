@@ -1,0 +1,69 @@
+{% extends "index.html" %}
+
+{% block mycontent %}
+  <section class="section-page container-fluid bg-body-tertiary">
+    <div class="container mt-5">
+      <div class="row justify-content-center">
+        <div class="col-md-8">
+          <div class="card">
+            <div class="card-header">
+              <h1 class="card-title">Leave Application {{ username }}</h1>
+            </div>
+            <div class="card-body">
+              <form class="custom-form" method="post">
+                {% csrf_token %}
+
+                <div class="mb-3">
+                  <label for="start_date" class="form-label">From</label>
+                  <input type="date" class="form-control" id="start_date" name="start_date">
+                </div>
+
+                <div class="mb-3">
+                  <label for="end_date" class="form-label">To</label>
+                  <input type="date" class="form-control" id="end_date" name="end_date">
+                </div>
+
+                <div class="mb-3">
+                  <label for="leave_type" class="form-label">Leave Type</label>
+                  <select class="form-select" id="leave_type" name="leave_type">
+                    <option value="">-- Select --</option>
+                    {% for x in leavetype %}
+                    <option value="{{ x }}">{{ x }}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+
+                {% comment %} <div class="mb-3">
+                  <label for="leave_time" class="form-label">Leave Type</label>
+                  <select class="form-select" id="leave_time" name="leave_time">
+                    <option value="full">Half Day</option>
+                    <option value="half">Full Day</option>
+                  </select>
+                </div> {% endcomment %}
+
+                <div class="mb-3">
+                  <label for="description" class="form-label">Description</label>
+                  <input type="text" class="form-control" id="description" name="description">
+                </div>
+
+                <div class="d-grid gap-2">
+                  <button type="submit" class="btn btn-primary">Apply</button>
+                </div>
+
+                {% if messages %}
+                <div class="messages mt-3">
+                  {% for message in messages %}
+                  <div class="alert alert-success" role="alert">
+                    {{ message }}
+                  </div>
+                  {% endfor %}
+                </div>
+                {% endif %}
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock %}

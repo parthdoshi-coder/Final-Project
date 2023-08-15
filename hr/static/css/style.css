@@ -1,0 +1,47 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.main-container {
+  display: grid;
+  grid-template-columns: 18% 82%;
+}
+
+/* Aside Tag start */
+.side-bar {
+  background-color: rgb(64, 60, 60);
+}
+.ul-main {
+  list-style: none;
+  padding: 0px;
+}
+
+li,
+.nav-link {
+  list-style: none;
+  color: white;
+}
+/* Aside Tag end  */
+
+
+/* Section Tag start  */
+section {
+  box-shadow: 0 0 1px rgba(0, 0, 0, 0.3);
+}
+
+input,
+button,textarea {
+  width: 100%;
+  padding-left: 20px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  padding: 10px 20px !important;
+}
+
+input:active{
+  padding-left: 20px;
+}
+

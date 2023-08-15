@@ -1,0 +1,48 @@
+{% extends 'index.html' %}
+
+{% block mycontent %}
+  <div class="container mt-5">
+    <div class="row justify-content-center">
+      <div class="col-md-8">
+        <div class="card">
+          <div class="card-header">
+            <h1 class="card-title">Attendance Request</h1>
+          </div>
+          <div class="card-body">
+            <form class="custom-form" method="post">
+              {% csrf_token %}
+              <div class="mb-3">
+                <label for="request_type" class="form-label">Request Type</label>
+                <select class="form-select" id="request_type" name="request_type">
+                  <option value="new">New Request</option>
+                  <option value="change">Change Request</option>
+                </select>
+              </div>
+              <div class="mb-3">
+                <label for="att_date" class="form-label">Date</label>
+                <input type="date" class="form-control" id="att_date" name="att_date" />
+              </div>
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <label for="intime" class="form-label">In Time</label>
+                  <input type="time" class="form-control" id="intime" name="intime" />
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label for="outtime" class="form-label">Out Time</label>
+                  <input type="time" class="form-control" id="outtime" name="outtime" />
+                </div>
+              </div>
+              <div class="mb-3">
+                <label for="note" class="form-label">Note</label>
+                <textarea class="form-control" id="note" name="note" rows="3"></textarea>
+              </div>
+              <div class="d-grid gap-2">
+                <button type="submit" class="btn btn-primary">Submit</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

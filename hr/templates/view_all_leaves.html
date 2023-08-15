@@ -1,0 +1,83 @@
+{% extends "index.html" %}
+
+{% block mycontent %}
+<div class="container mt-5">
+    <h1>Leave Records</h1>
+    <form method="get" action="{% url 'view_all_leaves' %}" class="row g-3 align-items-center">
+        
+        <div class="col-auto">
+            <label for="employee">Select Employee:</label>
+        </div>
+        <div class="col-auto">
+            <select id="employee" name="employee" class="form-select">
+                <option value="">All Employees</option>
+                {% for employee in all_emp %}
+                <option value="{{ employee }}">{{ employee }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        
+        <div class="col-auto">
+            <label for="status">Select Status:</label>
+        </div>
+        <div class="col-auto">
+            <select id="status" name="status" class="form-select">
+                <option value="">All Statuses</option>
+                <option value="pending">Pending</option>
+                <option value="approved">Approved</option>
+                <option value="rejected">Rejected</option>
+            </select>
+        </div>
+        <div class="col-auto">
+            <button type="submit" class="btn btn-primary">Apply Filter</button>
+        </div>
+    </form>
+    <br/>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Employee</th>
+                <th>Leave Type</th>
+                <th>From</th>
+                <th>To</th>
+                <th>Number of Days</th>
+                <th>Status</th>
+                <th>Description</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% if leave_records %}
+                {% for leave in leave_records %}
+                    <tr>
+                        <td>{{ leave.emp_id.user.username }}</td>
+                        <td>{{ leave.leavetype_id.name }}</td>
+                        <td>{{ leave.fro }}</td>
+                        <td>{{ leave.to }}</td>
+                        <td>{{ leave.num_of_days }}</td>
+                        <td>{{ leave.status }}</td>
+                        <td>{{ leave.description }}</td>
+                        <td>
+                            {% if leave.status == 'pending' %}
+                                <a href="{% url 'approve_leave' id=leave.id action='accept' %}">
+                                    <button type="button" class="btn btn-success">Approve</button>
+                                </a>
+                                <a href="{% url 'approve_leave' id=leave.id action='reject' %}">
+                                    <button type="button" class="btn btn-danger">Reject</button>
+                                </a>
+                            {% else %}
+                                -
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            {% else %}
+                <tr>
+                    <td colspan="8" style="text-align: center;">No Records Found</td>
+                </tr>
+            {% endif %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}

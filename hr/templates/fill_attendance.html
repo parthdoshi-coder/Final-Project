@@ -1,0 +1,33 @@
+{% extends "index.html" %}
+
+{% block mycontent %}
+<div style="position: absolute; top: 60%; left: 60%; transform: translate(-60%, -60%); text-align: center;">
+    <h1>Welcome {{ username }}</h1>
+    <br/>
+    {% if in_time %}
+    <p>You have Entered office at {{ in_time }}</p>
+    {% endif %}
+    {% if out_time %}
+    <p>You have Checked Out at {{ out_time }}</p>
+    {% endif %}
+    {% if message %}
+    <p>{{ message }}</p>
+    {% endif %}
+    {% if not in_time and not out_time %}
+    <form method='post'>
+        {% csrf_token %}
+        <button type="submit" name='check_in' style="padding: 20px 40px; font-size: 24px; background-color: #007bff; color: #fff; border: none; border-radius: 5px; cursor: pointer;">
+            Check In
+        </button>
+    </form>
+    {% endif %}
+    {% if in_time and not out_time %}
+    <form method='post'>
+        {% csrf_token %}
+        <button type="submit" name='check_out' style="padding: 20px 40px; font-size: 24px; background-color: #0F7bff; color: #fff; border: none; border-radius: 5px; cursor: pointer;">
+            Check Out
+        </button>
+    </form>
+    {% endif %}
+</div>
+{% endblock %}
