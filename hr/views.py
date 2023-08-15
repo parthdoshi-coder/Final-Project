@@ -35,10 +35,16 @@ def loginpage(request):
 
             user = authenticate(username=username, password=password)
 
+            print(user)
             if user is not None:
+                
+                emp_id = Employee.objects.filter(user=user).first()
                 login(request, user)
                 request.session['username'] = username
-                return render(request, 'index.html')
+                return render(request, 'index.html', {
+                    'is_hr': emp_id.is_hr,
+                    'emp': emp_id,
+                })
             else:
                 # return HttpResponse("plese Enter correct password")
                 messages.warning(request, 'Invalid login credentials')
@@ -56,9 +62,7 @@ def logoutpage(request):
 @csrf_protect
 def add_employee(request):
     if request.method=='POST':
-        data = request.POST
-        print(request.FILES)
-        profile = request.FILES.get('profile')
+        # data = request.POST
         profile = request.FILES.get('profile')
         emp_code = request.POST.get('user')
         department=request.POST.get('Department')
