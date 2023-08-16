@@ -28,8 +28,8 @@ urlpatterns = [
     path('track_leave/',track_leave,name='track_leave'),
     path('cancel_leave/<int:id>/', cancel_leave, name='cancel_leave'),
     path('show_attendence_graph', show_attendence_graph, name='show_attendence_graph'),
-
-
+    # New Added (vikas)
+    path('emp_home', emp_home, name='emp_home'),
 ]
 
 if settings.DEBUG:
