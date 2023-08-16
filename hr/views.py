@@ -90,9 +90,7 @@ def add_employee(request):
         
         try:
             if password != cpassword:
-                    return JsonResponse({
-                    "message" : "Password and Confirm Password Does not match"
-                    })
+                messages.warning(request, 'your password and confirm password not same')
                 
                 
             if state:
@@ -115,11 +113,12 @@ def add_employee(request):
                                              date_of_birth=dob, employee_address=employee_address, city_id=city_id,
                                             state_id=state_id, aadhar_number=aadhar_number, pan_number=pan_number, dep_id=dep_id,
                                             designation_id=designation_id, date_of_joining=date_of_joining, is_employee=True,)
-            return render(request,'index.html')
+            messages.warning(request, 'Employee added sucesssully')
+            # return render(request,'')
+            # # return redirect()
 
 
         except Exception as e:
-                # transaction.set_rollback(True)
                 return JsonResponse(  {
                     'error_msg': str(e), 
                     'status_code': 400
@@ -136,9 +135,7 @@ def add_employee(request):
         'states': states,
         'deps': deps,
         'designation': designation,
-        'is_hr': emp_id.is_hr,
-        'is_employee':emp_id.is_employee
-        
+        'is_hr': emp_id.is_hr if emp_id else False  
     }
 
     return render(request,'add_employee.html', context)
@@ -674,3 +671,13 @@ def show_attendence_graph(request):
         return render(request, 'show_attendence_graph.html', context)
 
 
+def landing_page(request):
+    return render(request, 'landing_page.html')
+
+
+def contact_us(request):
+    return render(request, 'contact_us.html')
+
+
+def about_us(request):
+    return render(request, 'about_us.html')

@@ -27,7 +27,10 @@ urlpatterns = [
     path('approve_leave/<int:id>/<str:action>/', approve_leave, name='approve_leave'),
     path('track_leave/',track_leave,name='track_leave'),
     path('cancel_leave/<int:id>/', cancel_leave, name='cancel_leave'),
+    path('landing_page', landing_page, name='landing_page'),
     path('show_attendence_graph', show_attendence_graph, name='show_attendence_graph'),
+    path('contact_us', contact_us, name='contact_us'),
+    path('about_us', about_us, name='about_us'),
 
 
 ]
