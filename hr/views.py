@@ -136,7 +136,9 @@ def add_employee(request):
         'states': states,
         'deps': deps,
         'designation': designation,
-        'is_hr': emp_id.is_hr
+        'is_hr': emp_id.is_hr,
+        'is_employee':emp_id.is_employee
+        
     }
 
     return render(request,'add_employee.html', context)
@@ -150,6 +152,7 @@ def my_profile(request):
             'username': request.session.get('username'),
             'emp': emp_id[0],
             'is_hr': emp_id[0].is_hr 
+            
         }
     else:
         context = {}
@@ -626,7 +629,7 @@ def change_password(request):
     user = User.objects.filter(username=request.session.get('username')).first()
     emp = Employee.objects.filter(user=user).first()
 
-    return render(request, 'change_password.html',{'is_hr': emp.is_hr})
+    return render(request, 'change_password.html',{'is_hr':emp.is_hr})
 
 
 def show_attendence_graph(request):
@@ -669,3 +672,5 @@ def show_attendence_graph(request):
         }
 
         return render(request, 'show_attendence_graph.html', context)
+
+

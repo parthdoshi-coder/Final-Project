@@ -214,6 +214,9 @@
         <h1 style="color:black; text-align:center;" class="text-center my-1">Welcome to HRMS system {{ username }}</h1>
        </div>
 
+       
+      
+
       <div class="container bootstrap snippet">
         <div class="row">
           <div class="col-lg-2 col-sm-8">
@@ -221,7 +224,7 @@
               <a href="#"><div class="circle-tile-heading dark-blue"><i class="fa fa-users fa-fw fa-3x"></i></div></a>
               <div class="circle-tile-content dark-blue">
                 <div class="circle-tile-description text-faded"> Employess</div>
-                <div class="circle-tile-number text-faded ">265</div>
+                <div class="circle-tile-number text-faded ">10</div>
                 <a class="circle-tile-footer" href="#">More Info<i class="fa fa-chevron-circle-right"></i></a>
               </div>
             </div>
@@ -233,7 +236,7 @@
             <div class="circle-tile ">
               <a href="#"><div class="circle-tile-heading red"><i class="fa fa-users fa-fw fa-3x"></i></div></a>
               <div class="circle-tile-content red">
-                <div class="circle-tile-description text-faded"> Users Online </div>
+                <div class="circle-tile-description text-faded"> Department</div>
                 <div class="circle-tile-number text-faded ">10</div>
                 <a class="circle-tile-footer" href="#">More Info<i class="fa fa-chevron-circle-right"></i></a>
               </div>
@@ -247,7 +250,7 @@
             <div class="circle-tile ">
               <a href="#"><div class="circle-tile-heading dark-blue"><i class="fa fa-users fa-fw fa-3x"></i></div></a>
               <div class="circle-tile-content dark-blue">
-                <div class="circle-tile-description text-faded"> Users</div>
+                <div class="circle-tile-description text-faded"> Attendance Request</div>
                 <div class="circle-tile-number text-faded ">265</div>
                 <a class="circle-tile-footer" href="#">More Info<i class="fa fa-chevron-circle-right"></i></a>
               </div>
@@ -259,22 +262,27 @@
             <div class="circle-tile ">
               <a href="#"><div class="circle-tile-heading red"><i class="fa fa-users fa-fw fa-3x"></i></div></a>
               <div class="circle-tile-content red">
-                <div class="circle-tile-description text-faded"> Users Online </div>
+                <div class="circle-tile-description text-faded"> Leave Request </div>
                 <div class="circle-tile-number text-faded ">10</div>
                 <a class="circle-tile-footer" href="#">More Info<i class="fa fa-chevron-circle-right"></i></a>
               </div>
             </div>
           </div> 
 
-         <div style="width: 80%; margin: 0 auto; width: 1000px; height: 1000px;">{{ graph|safe }}</div>
-
           
-        {% comment %} </div> 
-      </div>  
-        
-      </div>
-      </div> {% endcomment %}
         <style>
+
+          .parent-container {
+            display: flex;
+            justify-content: center; /* Center horizontally */
+            align-items: center; /* Center vertically */
+            /* Additional styles for the parent container */
+          }
+          
+          .centered-div {
+            /* Styles for the centered div */
+          }
+          
           .circle-tile {
             margin-bottom: 15px;
             text-align: center;
