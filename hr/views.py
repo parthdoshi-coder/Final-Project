@@ -46,8 +46,15 @@ def loginpage(request):
                     'emp': emp_id,
                 })
             else:
+                if User.objects.filter(username=username).exists():
+                    messages.warning(request, 'Your password is incorrect')
+                    # return render(request, 'login.html', {'error': 'not'})
+
+                else:
+                    # return render(request, 'login.html', {'error': 'yes'})
+                    messages.warning(request, 'your username is Incorrect')
                 # return HttpResponse("plese Enter correct password")
-                messages.warning(request, 'Invalid login credentials')
+                
         return render(request, 'login.html')
 
 def logoutpage(request):
@@ -205,9 +212,11 @@ def add_department(request):
         dep = Department.objects.filter(department_name=dep_name)
         if dep:
             messages.success(request, 'Department Already Exist!')
+            
         else:
             Department.objects.create(department_name=dep_name)
-            messages.success(request, 'Department added successfully!')
+            # messages.success(request, 'Department added successfully!')
+            return redirect('view_department')
     return render(request, 'add_department.html', {'is_hr': emp_id.is_hr})
 
 def view_department(request):
@@ -594,7 +603,9 @@ def update_employee(request,id):
        
 @login_required
 def change_password(request):
+   
     if request.method == 'POST':
+       
         current_password = request.POST.get('currentpassword')
         new_password = request.POST.get('newpassword')
         confirm_password = request.POST.get('confirmpassword')
@@ -607,10 +618,15 @@ def change_password(request):
             error = 'no'
             return render(request, 'change_password.html', {'error': 'no'})
 
+        elif(new_password != confirm_password):
+            return render(request, 'change_password.html', {'error': 'yes'})
         else:
-            return render(request, 'change_password.html', {'error': 'not'})
+             return render(request, 'change_password.html', {'error': 'not'})
+         
+    user = User.objects.filter(username=request.session.get('username')).first()
+    emp = Employee.objects.filter(user=user).first()
 
-    return render(request, 'change_password.html', {'error': None})
+    return render(request, 'change_password.html',{'is_hr': emp.is_hr})
 
 
 def show_attendence_graph(request):
