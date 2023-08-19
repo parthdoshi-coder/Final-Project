@@ -10,11 +10,11 @@
     integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
   <link rel="stylesheet" href="{% static 'css/style.css' %}">
   <link rel="shortcut icon" href="../static/media/images/admin.jpg" type="image/x-icon">
+  <link rel="shortcut icon" href="/media/images/logo.png" type="image/x-icon">
 </head>
 
 <body>
 
-  
   <main class="main-container">
     <aside class="side-bar">
       <nav class="nav d-flex flex-column">
@@ -177,20 +177,15 @@
       </nav>
     </aside>
 
-    
-
     <section class="section-page container-fluid bg-body-tertiary px-0">
       <nav class="navbar navbar-expand-lg navbar-dark bg-dark py-0 px-3">
-        <a class="navbar-brand" href="#">HRMS System</a>
+        <a class="navbar-brand" href="#">Olve Pvt Ltd</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
           aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-            <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="{% url 'landing_page' %}">Home</a>
-            </li>
             <li class="nav-item">
               <a class="nav-link" href="{% url 'about_us' %}">About us</a>
             </li>
@@ -210,14 +205,43 @@
 
       {% block mycontent %}
 
-      <div class="navbar-text">
+      {% comment %} <div class="navbar-text">
         <h1 style="color:black; text-align:center;" class="text-center my-1">Welcome to HRMS system {{ username }}</h1>
-       </div>
+       </div> {% endcomment %}
 
-       
-      
+       {% if is_hr %}
+       <div class="container my-2">
+        <div class="text-capitalize border-top border-bottom border-primary border-3 py-2">
+          <h2 class="text-dark text-center">HR  DASHBOARD</h2>
+        </div>
+        <div class="container border-bottom border-2 border-primary my-2">
+         <h2><marquee style="color:green;" class="my-2 fa-2x"> WELCOME TO HRMS SYSTEM {{ username }} </marquee></h2>
+        </div>
+        <div class="text-capitalize">
+        </div>
+         <div class="round-image-container">
+            <img src="{% if emp.profile %}{{ emp.profile.url }}{% else %}{% static 'images/emp.profile' %}{% endif %}"
+                class="round-image" />
+          </div>
+        <span class="fs-4 d-block text-center">{{ emp.user.first_name|add:" " }}{{ emp.user.last_name }}</span>
+         {% else %}
 
-      <div class="container bootstrap snippet">
+         <div class="container my-2">
+        <div class="text-capitalize border-top border-bottom border-primary border-3 py-2">
+          <h2 class="text-dark text-center">EMPLOYEE  DASHBOARD</h2>
+        </div>
+        <div class="container border-bottom border-2 border-primary my-2">
+         <h2><marquee style="color:green;" class="my-2 fa-2x"> WELCOME TO HRMS SYSTEM {{ username }} </marquee></h2>
+        </div>
+        <div class="text-capitalize">
+        </div>
+         <div class="round-image-container">
+            <img src="{% if emp.profile %}{{ emp.profile.url }}{% else %}{% static 'images/emp.profile' %}{% endif %}"
+                class="round-image" />
+          </div>
+        <span class="fs-4 d-block text-center">{{ emp.user.first_name|add:" " }}{{ emp.user.last_name }}</span>       
+        {% endif %}
+      {% comment %} <div class="container bootstrap snippet">
         <div class="row">
           <div class="col-lg-2 col-sm-8">
             <div class="circle-tile ">
@@ -267,10 +291,27 @@
                 <a class="circle-tile-footer" href="#">More Info<i class="fa fa-chevron-circle-right"></i></a>
               </div>
             </div>
-          </div> 
+          </div>  {% endcomment %}
 
           
         <style>
+
+        .round-image-container {
+        display: block;
+        margin: 0px auto;
+        width: 150px;
+        height: 150px;
+        overflow: hidden;
+        border-radius: 50%;
+        margin-bottom: 15px;
+    }
+
+    .round-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 50%;
+    }
 
           .parent-container {
             display: flex;

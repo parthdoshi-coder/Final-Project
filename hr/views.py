@@ -92,6 +92,14 @@ def add_employee(request):
             if password != cpassword:
                 messages.warning(request, 'your password and confirm password not same')
                 
+            if len(aadhar_number) > 12 or len(aadhar_number) < 12:
+                messages.warning(request, 'Aadhar Number length should be 12 digit only')
+            
+            aadhar_match_user = Employee.objects.filter(aadhar_number=aadhar_number)
+            if aadhar_match_user.first():
+                messages.warning(request, 'Employee with this aadhar number already exist!!')
+                
+                
                 
             if state:
                 state_id = State.objects.get(name=state)
@@ -113,7 +121,7 @@ def add_employee(request):
                                              date_of_birth=dob, employee_address=employee_address, city_id=city_id,
                                             state_id=state_id, aadhar_number=aadhar_number, pan_number=pan_number, dep_id=dep_id,
                                             designation_id=designation_id, date_of_joining=date_of_joining, is_employee=True,)
-            messages.warning(request, 'Employee added sucesssully')
+            messages.success(request, 'Employee added sucesssully')
             # return render(request,'')
             # # return redirect()
 
@@ -291,6 +299,7 @@ def attendence_request(request):
             out_time=request.POST.get('outtime'), request_type=request.POST.get('request_type'),
             status='pending', note=request.POST.get('note')             
         )
+        # messages.warning(request, 'your request sent successfully')
         return render(request, 'attendence_request.html', {'is_hr': emp.is_hr})
     return render(request, 'attendence_request.html', {'is_hr': emp.is_hr})
 

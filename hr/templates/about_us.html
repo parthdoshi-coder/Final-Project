@@ -1,67 +1,90 @@
 {% extends 'index.html' %} {% block mycontent %}
 
-<h3
-  class="text-secondry p-2 text-left"
-  style="font-family: Times New Roman; border-bottom: 2px solid green"
->
-  About Us
-</h3>
+<style>
+  h3 {
+    font-family: 'Times New Roman', Times, serif;
+    text-align: center;
+    font-weight: bold;
+  }
 
-<div class="row text-center">
-  <div class="col-sm-12 p-2">
-    <div class="card shadow">
-      <div class="card-body">
-        <div class="card-body">
-          <div class="mb-7">
-            <h2
-              class="fs-1 text-gray-800 w-bolder mb-6"
-              style="font-family: Times New Roman"
-            >
-              <u>About Us</u>
-            </h2>
-            <p
-              class="fw-bold fs-6 text-gray-600"
-              style="font-family: Times New Roman"
-            >
-              First, a disclaimer – the entire process of writing a blog post
-              often takes more than a couple of hours, even if you can type
-              eighty words as per minute and your writing skills are sharp.
-            </p>
-          </div>
-        </div>
-        <p style="font-family: Times New Roman">
-          First, a disclaimer – the entire process of writing a blog post often
-          takes more than a couple of hours, even if you can type eighty words
-          per minute and your writing skills are sharp. From the seed of the
-          idea to finally hitting “Publish,” you might spend several days or
-          maybe even a week “writing” a blog post, but it’s important to spend
-          those vital hours planning your post and even thinking about Your
-          Post(yes, thinking counts as working if you’re a blogger) before you
-          actually write it. There’s an old maxim that states, “No fun for the
-          writer, no fun for the reader.”No matter what industry you’re working
-          in, as a blogger, you should live and die by this statement. Before
-          you do any of the following steps, be sure to pick a topic that
-          actually interests you. Nothing – and I mean NOTHING– will kill a blog
-          post more effectively than a lack of enthusiasm from the writer. You
-          can tell when a writer is bored by their subject, and it’s so
-          cringe-worthy it’s a little embarrassing. I can hear your objections
-          already. “But Dan, I have to blog for a cardboard box manufacturing
-          company.” I feel your pain, I really do. During the course of my
-          career, I’ve written content for dozens of clients in some
-          less-than-thrilling industries (such as financial regulatory
-          compliance and corporate housing), but the hallmark of a professional
-          blogger is the ability to write well about any topic, no matter how
-          dry it may be. Blogging is a lot easier, however, if you can muster at
-          least a little enthusiasm for the topic at hand.
+  h2{
+    font-family: 'Times New Roman', Times, serif;
+    border-bottom: 2px solid green;
+  }
+  p {
+    font-family: 'Times New Roman', Times, serif;
+    font-weight: bold;
+    text-align: justify;
+  }
+</style>
+
+<div class="container">
+  <h2 class="text-secondry p-2 text-left fs-1">
+    About Us
+  </h2>
+
+  <div class="row text-center">
+    <div class="col-sm-12 p-2">
+      <div class="mb-3 About_us">
+        <h3 class="About_us">
+          About Us
+        </h3>
+        <p>
+          Welcome to Olive Pvt Ltd, your trusted partner in managing company data. We specialize in providing
+          innovative data management solutions that empower businesses to harness the full potential of their
+          information assets. With a relentless commitment to excellence and a deep understanding of data's
+          transformative power, Olive Pvt Ltd stands as a beacon of reliability in the ever-evolving landscape of
+          data-driven decision-making.
         </p>
-        <a
-          {% comment %} href="{% url 'EmployeeJobDetails' %}" {% endcomment %}
-          class="btn btn-primary"
-          style="font-family: Times New Roman"
-          >HOME</a
-        >
+      </div>
+
+      <div class="mission">
+        <h3>Our Mission</h3>
+        <p>
+          At Olive Pvt Ltd, our mission is clear: to revolutionize the way companies perceive, handle, and utilize
+          their data. We strive to streamline data processes, enhance data accuracy, and unlock valuable insights that
+          drive growth, efficiency, and success. We are dedicated to fostering a data-conscious culture that
+          transforms challenges into opportunities and complexity into clarity.
+        </p>
+      </div>
+
+      <div class="text-left">
+        <h3>Why Choose Olive Pvt Ltd?</h3>
+        <p>
+          Expertise: With a team of seasoned data professionals, we bring a wealth of expertise and knowledge to every
+          project. We understand that every business is unique, and we tailor our solutions to meet your specific needs.
+        </p>
+
+        <p>
+          Innovation: In a rapidly evolving digital landscape, innovation is key. We stay ahead of the curve by
+          embracing the latest technologies and trends, ensuring that our clients always benefit from cutting-edge
+          solutions.
+        </p>
+
+        <p>
+          Reliability: Trust is the foundation of our client relationships. We prioritize data security, privacy, and
+          integrity, ensuring that your information is always in safe hands.
+
+          Results-Driven: We are not just about processes; we are about results. Our solutions are designed to deliver
+          tangible outcomes, from increased operational efficiency to better-informed decision-making.
+        </p>
+
+      </div>
+      <div class="text-left">
+        <h3>Join Us on the Journey</h3>
+        <p>
+          Whether you're a start-up looking to establish a solid data foundation or a seasoned enterprise aiming to
+          optimize your data strategies, Olive Pvt Ltd is here to accompany you every step of the way. Embrace the
+          future of data management with us, and let's embark on a journey that transforms your data into a strategic
+          asset. Contact us today to explore the possibilities.
+
+          <p class="fs-10">
+            Olive Pvt Ltd - Nurturing Insights, Empowering Growth.
+          </p>
+        </p>
       </div>
     </div>
   </div>
 </div>
+
 {% endblock%}
